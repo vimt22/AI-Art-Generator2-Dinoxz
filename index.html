@@ -60,7 +60,7 @@
 <ul>
     <li class="prompt-example" onclick="setPrompt('Beautiful moon over the ocean')">Beautiful moon over the ocean</li>
     <li class="prompt-example" onclick="setPrompt('Futuristic city skyline with neonlit skyscrapers')">Futuristic city skyline with neonlit skyscrapers</li>
-    <li class="prompt-example" onclick="setPrompt('Flowing Bohemianstyle skirt and blouse dancing')">Flowing Bohemianstyle skirt and blouse dancing</li>
+    <li class="prompt-example" onclick="setPrompt('Portrait of a Woman with Green Eyes')">Portrait of a Woman with Green Eyes</li>
 </ul>
 
 <div id="image-container"></div>
@@ -85,6 +85,9 @@
         document.getElementById('loading').style.display = 'block';
         document.getElementById('image-container').innerHTML = '';
 
+        // Generate a random seed
+        const seed = Math.floor(Math.random() * 10000);
+
         const options = {
             method: 'POST',
             headers: {
@@ -94,14 +97,15 @@
             body: JSON.stringify({
                 inputs: prompt,
                 options: {
-                    wait_for_model: true
+                    wait_for_model: true,
+                    seed: seed // Pass the random seed
                 }
             })
         };
 
         try {
             console.log('Sending request with options:', options);
-            const response = await fetch('https://api-inference.huggingface.co/models/Kvikontent/midjourney-v6', options);
+            const response = await fetch('https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5', options);
             console.log('Response:', response);
 
             if (!response.ok) {
